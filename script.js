@@ -34,7 +34,6 @@ function GameController(player1, player2) {
     },
     getActivePlayer: () => activePlayer,
     getBoard: () => board.getBoard(),
-    // Add more methods as needed
   };
 }
 
@@ -86,37 +85,61 @@ function handleCellClick(event) {
 }
 
 function checkForWinner() {
-  // Add logic to check for a winner
-  // Return true if there is a winner, false otherwise
-  // You'll need to check rows, columns, and diagonals
-  // Example:
-  // if (checkRow(0) || checkRow(1) || checkRow(2) ||
-  //     checkColumn(0) || checkColumn(1) || checkColumn(2) ||
-  //     checkDiagonal()) {
-  //   return true;
-  // }
-  // return false;
+  const board = gameController.getBoard();
+  for (let i = 0; i < board.length; i++) {
+    if (checkRow(i) || checkColumn(i)) {
+      return true;
+    }
+  }
+  return checkDiagonal();
 }
+
 
 function checkRow(row) {
-  // Implement logic to check if the specified row has a winner
-  // Return true if there is a winner, false otherwise
+  const board = gameController.getBoard();
+  const firstCell = board[row][0];
+  if (firstCell === null) {
+    return false;
+  }
+  return board[row].every(cell => cell === firstCell);
 }
 
+
 function checkColumn(col) {
-  // Implement logic to check if the specified column has a winner
-  // Return true if there is a winner, false otherwise
+  const board = gameController.getBoard();
+  const firstCell = board[0][col];
+  if (firstCell === null) {
+    return false;
+  }
+  for (let i = 1; i < board.length; i++) {
+    if (board[i][col] !== firstCell) {
+      return false;
+    }
+  }
+  return true;
 }
 
 function checkDiagonal() {
-  // Implement logic to check if any diagonal has a winner
-  // Return true if there is a winner, false otherwise
+  const board = gameController.getBoard();
+
+  // Main diagonal
+  const mainDiagonal = [board[0][0], board[1][1], board[2][2]];
+  if (mainDiagonal.every(cell => cell === mainDiagonal[0] && cell !== null)) {
+    return true;
+  }
+
+  // Anti-diagonal
+  const antiDiagonal = [board[0][2], board[1][1], board[2][0]];
+  return antiDiagonal.every(cell => cell === antiDiagonal[0] && cell !== null);
 }
 
 function checkForTie() {
-  // Implement logic to check for a tie
-  // Return true if the game is a tie, false otherwise
+  const board = gameController.getBoard();
+
+  // Check if every cell in the board is filled (not null)
+  return board.every(row => row.every(cell => cell !== null));
 }
+
 
 document.addEventListener('DOMContentLoaded', function () {
   // Your existing code
