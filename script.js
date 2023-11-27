@@ -7,7 +7,6 @@ function Gameboard() {
 
   return {
     getBoard: () => board,
-    // Add more methods as needed
   };
 }
 
@@ -37,12 +36,10 @@ function GameController(player1, player2) {
   };
 }
 
-// Test the GameController
 const player1 = Player("Player 1", "X");
 const player2 = Player("Player 2", "O");
 const gameController = GameController(player1, player2);
 
-// Function to create the game board
 function createGameBoard() {
   const gameBoard = document.getElementById('game-board');
 
@@ -66,17 +63,14 @@ function createCell(row, col) {
 function handleCellClick(event) {
   const clickedCell = event.target;
 
-  // Check if the cell is empty
   if (!clickedCell.textContent) {
-    // Update the cell with the current player's marker
     clickedCell.textContent = gameController.getActivePlayer().marker;
 
-    // Check for a winner or tie
-    if (checkForWinner() || checkForTie()) {
-      // Handle game over logic, e.g., show a message
-      console.log("Game Over!");
+    if (checkForWinner()) {
+      console.log(`${gameController.getActivePlayer().name} wins!`);
+    } else if (checkForTie()) {
+      console.log("It's a tie!");
     } else {
-      // Switch to the next player
       gameController.playTurn(parseInt(clickedCell.dataset.row), parseInt(clickedCell.dataset.col));
     }
   } else {
@@ -86,64 +80,56 @@ function handleCellClick(event) {
 
 function checkForWinner() {
   const board = gameController.getBoard();
+  const activePlayer = gameController.getActivePlayer();
+  
   for (let i = 0; i < board.length; i++) {
-    if (checkRow(i) || checkColumn(i)) {
+    if (checkRow(i, activePlayer.marker) || checkColumn(i, activePlayer.marker)) {
       return true;
     }
   }
-  return checkDiagonal();
+  return checkDiagonal(activePlayer.marker);
 }
 
-
-function checkRow(row) {
+function checkRow(row, marker) {
   const board = gameController.getBoard();
   const firstCell = board[row][0];
   if (firstCell === null) {
     return false;
   }
-  return board[row].every(cell => cell === firstCell);
+  return board[row].every(cell => cell === marker);
 }
 
-
-function checkColumn(col) {
+function checkColumn(col, marker) {
   const board = gameController.getBoard();
   const firstCell = board[0][col];
   if (firstCell === null) {
     return false;
   }
   for (let i = 1; i < board.length; i++) {
-    if (board[i][col] !== firstCell) {
+    if (board[i][col] !== marker) {
       return false;
     }
   }
   return true;
 }
 
-function checkDiagonal() {
+function checkDiagonal(marker) {
   const board = gameController.getBoard();
-
-  // Main diagonal
   const mainDiagonal = [board[0][0], board[1][1], board[2][2]];
-  if (mainDiagonal.every(cell => cell === mainDiagonal[0] && cell !== null)) {
+  if (mainDiagonal.every(cell => cell === marker)) {
     return true;
   }
 
-  // Anti-diagonal
   const antiDiagonal = [board[0][2], board[1][1], board[2][0]];
-  return antiDiagonal.every(cell => cell === antiDiagonal[0] && cell !== null);
+  return antiDiagonal.every(cell => cell === marker);
 }
+
 
 function checkForTie() {
   const board = gameController.getBoard();
-
-  // Check if every cell in the board is filled (not null)
   return board.every(row => row.every(cell => cell !== null));
 }
 
-
 document.addEventListener('DOMContentLoaded', function () {
-  // Your existing code
-
-  // Call the createGameBoard function to generate cells
   createGameBoard();
 });
