@@ -132,4 +132,38 @@ function checkForTie() {
 
 document.addEventListener('DOMContentLoaded', function () {
   createGameBoard();
+
+ // Get the restart button element
+ const restartButton = document.getElementById('restart-button');
+ // Add a click event listener to the restart button
+ restartButton.addEventListener('click', function () {
+  // Call a function to restart the game
+  restartGame();
 });
+});
+
+
+function restartGame() {
+  // Clear the game board by removing text content from each cell
+  const cells = document.querySelectorAll('.cell');
+  cells.forEach(cell => {
+    cell.textContent = '';
+  });
+
+  // Reset the internal game state (clear the board)
+  const board = gameController.getBoard();
+  for (let i = 0; i < board.length; i++) {
+    for (let j = 0; j < board[i].length; j++) {
+      board[i][j] = null;
+    }
+  }
+
+  // Switch back to the initial active player
+  const player1 = Player("Player 1", "X");
+  const player2 = Player("Player 2", "O");
+  gameController.getActivePlayer() === player1 ? (activePlayer = player1) : (activePlayer = player2);
+
+  // Optional: Display a message indicating the game has been restarted
+  console.log("Game restarted!");
+}
+

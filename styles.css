@@ -3,6 +3,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column; /* Added to make elements stack vertically */
   height: 100vh;
   margin: 0;
 }
@@ -33,3 +34,6 @@ body {
   background-color: #f0f0f0;
 }
 
+#restart-button {
+  margin-top: 20px; /* Adjust the margin to create space between the button and the game board */
+}
