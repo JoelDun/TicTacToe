@@ -60,35 +60,59 @@ function createCell(row, col) {
   return cell;
 }
 
+
 function handleCellClick(event) {
   const clickedCell = event.target;
 
   if (!clickedCell.textContent) {
     clickedCell.textContent = gameController.getActivePlayer().marker;
 
+    // Check for a winner after placing the current player's marker
     if (checkForWinner()) {
       console.log(`${gameController.getActivePlayer().name} wins!`);
     } else if (checkForTie()) {
       console.log("It's a tie!");
     } else {
       gameController.playTurn(parseInt(clickedCell.dataset.row), parseInt(clickedCell.dataset.col));
+
+      // Switch to the next player
+      const nextPlayer = gameController.getActivePlayer();
+
+      // Check for a winner after switching to the next player
+      if (checkForWinner()) {
+        console.log(`${nextPlayer.name} wins!`);
+      } else if (checkForTie()) {
+        console.log("It's a tie!");
+      }
     }
   } else {
     console.log("Invalid move. Cell already occupied.");
   }
 }
 
-function checkForWinner() {
+
+
+function checkForWinner(marker) {
   const board = gameController.getBoard();
-  const activePlayer = gameController.getActivePlayer();
-  
+
+  // Check rows
   for (let i = 0; i < board.length; i++) {
-    if (checkRow(i, activePlayer.marker) || checkColumn(i, activePlayer.marker)) {
+    if (checkRow(i, marker)) {
       return true;
     }
   }
-  return checkDiagonal(activePlayer.marker);
+
+  // Check columns
+  for (let i = 0; i < board.length; i++) {
+    if (checkColumn(i, marker)) {
+      return true;
+    }
+  }
+
+  // Check diagonals
+  return checkDiagonal(marker);
 }
+
 
 function checkRow(row, marker) {
   const board = gameController.getBoard();
