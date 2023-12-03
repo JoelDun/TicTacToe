@@ -1,11 +1,17 @@
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Arial', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column; /* Added to make elements stack vertically */
   height: 100vh;
   margin: 0;
+  background-color: #f2f2f2;
+}
+
+#game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #game-board {
@@ -35,5 +41,18 @@ body {
 }
 
 #restart-button {
-  margin-top: 20px; /* Adjust the margin to create space between the button and the game board */
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+#restart-button:hover {
+  background-color: #45a049;
 }
