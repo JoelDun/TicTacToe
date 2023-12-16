@@ -53,33 +53,17 @@ body {
   transition: background-color 0.3s ease;
 }
 
-#restart-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  background-color: #4caf50;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
 #restart-button:hover {
   background-color: #45a049;
 }
 
-#game-over-message {
+#game-over-message, #tie-message {
   font-size: 24px;
   font-weight: bold;
   margin-top: 20px;
-  color: #e74c3c; /* Red color for game over message */
+  color: #3498db; /* Default color for game messages */
 }
 
-#tie-message {
-  font-size: 24px;
-  font-weight: bold;
-  margin-top: 20px;
-  color: #3498db; /* Blue color for tie message */
+#game-over-message {
+  color: #e74c3c; /* Red color for game over message */
 }
